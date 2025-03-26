@@ -1,0 +1,33 @@
+# Node.js
+node_modules/
+npm-debug.log
+yarn-error.log
+.env
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+venv/
+.env
+
+# Logs
+logs/
+*.log
+
+# Database
+*.sqlite
+*.db
+
+# IDE / Editor settings
+.vscode/
+.idea/
+.DS_Store
+
+# Docker
+.dockerignore
+docker-compose.override.yml
+
+# OS-specific
+Thumbs.db
