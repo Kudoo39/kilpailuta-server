@@ -6,7 +6,7 @@ const proSchema = new mongoose.Schema({
   name: { type: String, required: true },
   location: { type: String, required: true },
   description: { type: String },
-  rate: { type: String, required: true }
+  rate: { type: String }
 })
 
 export default mongoose.model('Pro', proSchema)

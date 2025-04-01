@@ -36,6 +36,12 @@ export const updateProProfile = async (
   return profile
 }
 
+export const deleteProProfile = async (userId) => {
+  const profile = await Pro.findOneAndDelete({ userId })
+  if (!profile) throw new Error('Profile not found')
+  return profile
+}
+
 export const searchPros = async (query) => {
   const pros = await Pro.find({
     $or: [

@@ -1,6 +1,7 @@
 import {
   createProProfile,
   updateProProfile,
+  deleteProProfile,
   searchPros
 } from '../services/proService.js'
 import { body, validationResult } from 'express-validator'
@@ -80,6 +81,25 @@ export const updateProfile = [
         description
       )
       res.status(200).json(profile)
+    } catch (error) {
+      res.status(404).json({ message: error.message })
+    }
+  }
+]
+
+export const deleteProfile = [
+  authMiddleware,
+  async (req, res) => {
+    try {
+      const userId = req.user.id
+      if (req.user.role !== 'pro') {
+        return res
+          .status(403)
+          .json({ message: 'Only professionals can delete profiles' })
+      }
+
+      const profile = await deleteProProfile(userId)
+      res.status(200).json({ message: 'Profile deleted', profile })
     } catch (error) {
       res.status(404).json({ message: error.message })
     }
