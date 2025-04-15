@@ -16,13 +16,17 @@ export const createProfile = [
     .optional()
     .isString()
     .withMessage('Description must be a string'),
+  body('rate')
+    .optional()
+    .isFloat({ min: 0 })
+    .withMessage('Rate must be a positive number'),
   async (req, res) => {
     const errors = validationResult(req)
     if (!errors.isEmpty())
       return res.status(400).json({ errors: errors.array() })
 
     try {
-      const { jobTitle, name, location, description } = req.body
+      const { jobTitle, name, location, description, rate } = req.body
       const userId = req.user.id
       if (req.user.role !== 'pro') {
         return res
@@ -59,6 +63,10 @@ export const updateProfile = [
     .optional()
     .isString()
     .withMessage('Description must be a string'),
+  body('rate')
+    .optional()
+    .isFloat({ min: 0 })
+    .withMessage('Rate must be a positive number'),
   async (req, res) => {
     const errors = validationResult(req)
     if (!errors.isEmpty())

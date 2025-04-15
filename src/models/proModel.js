@@ -6,7 +6,10 @@ const proSchema = new mongoose.Schema({
   name: { type: String, required: true },
   location: { type: String, required: true },
   description: { type: String },
-  rate: { type: String }
+  rate: {
+    type: Number,
+    min: 0
+  }
 })
 
 export default mongoose.model('Pro', proSchema)

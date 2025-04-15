@@ -5,7 +5,8 @@ export const createProProfile = async (
   jobTitle,
   name,
   location,
-  description
+  description,
+  rate
 ) => {
   const existingProfile = await Pro.findOne({ userId })
   if (existingProfile) throw new Error('Profile already exists for this user')
@@ -15,7 +16,8 @@ export const createProProfile = async (
     jobTitle,
     name,
     location,
-    description
+    description,
+    rate
   })
   return profile
 }
@@ -25,11 +27,12 @@ export const updateProProfile = async (
   jobTitle,
   name,
   location,
-  description
+  description,
+  rate
 ) => {
   const profile = await Pro.findOneAndUpdate(
     { userId },
-    { jobTitle, name, location, description },
+    { jobTitle, name, location, description, rate },
     { new: true, runValidators: true }
   )
   if (!profile) throw new Error('Profile not found')
