@@ -39,7 +39,8 @@ export const createProfile = [
         jobTitle,
         name,
         location,
-        description
+        description,
+        rate
       )
       res.status(201).json(profile)
     } catch (error) {
@@ -73,7 +74,7 @@ export const updateProfile = [
       return res.status(400).json({ errors: errors.array() })
 
     try {
-      const { jobTitle, name, location, description } = req.body
+      const { jobTitle, name, location, description, rate } = req.body
       const userId = req.user.id
       if (req.user.role !== 'pro') {
         return res
@@ -86,7 +87,8 @@ export const updateProfile = [
         jobTitle,
         name,
         location,
-        description
+        description,
+        rate
       )
       res.status(200).json(profile)
     } catch (error) {

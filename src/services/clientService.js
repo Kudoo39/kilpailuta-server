@@ -1,10 +1,11 @@
 import Gig from '../models/gigModel.js'
 
-export const createGig = async (clientId, title, description) => {
+export const createGig = async (clientId, title, description, budget) => {
   const gig = await Gig.create({
     clientId,
     title,
-    description
+    description,
+    budget
   })
   return gig
 }
