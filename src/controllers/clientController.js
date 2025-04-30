@@ -1,6 +1,7 @@
 import { createGig, findGigsByClient } from '../services/clientService.js'
 import { body, validationResult } from 'express-validator'
 import { authMiddleware } from '../middleware/authMiddleware.js'
+import { sendEmailToManager } from '../middleware/sendEmail.js'
 
 export const postGig = [
   authMiddleware,
@@ -19,13 +20,27 @@ export const postGig = [
       return res.status(400).json({ errors: errors.array() })
 
     try {
-      const { title, description, budget } = req.body
+      const { title, description, budget, userEmail } = req.body
       const clientId = req.user.id
       if (req.user.role !== 'client') {
         return res.status(403).json({ message: 'Only clients can post gigs' })
       }
 
       const gig = await createGig(clientId, title, description, budget)
+
+      try {
+        await sendEmailToManager({
+          senderEmail: userEmail,
+          gigDetails: {
+            title,
+            budget,
+            description
+          }
+        })
+      } catch (emailError) {
+        console.error('Failed to send email:', emailError)
+      }
+
       res.status(201).json(gig)
     } catch (error) {
       res.status(500).json({ message: error.message })
