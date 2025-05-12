@@ -9,9 +9,11 @@ export const registerUser = async (email, password, role) => {
   const hashedPassword = await bcrypt.hash(password, 10)
   const user = await User.create({ email, password: hashedPassword, role })
 
-  const token = jwt.sign({ id: user._id, role }, process.env.JWT_SECRET, {
-    expiresIn: '1h'
-  })
+  const token = jwt.sign(
+    { id: user._id, email: user.email, role: user.role },
+    process.env.JWT_SECRET,
+    { expiresIn: '1h' }
+  )
 
   return { token }
 }
@@ -24,11 +26,9 @@ export const loginUser = async (email, password) => {
   if (!isMatch) throw new Error('Invalid email or password')
 
   const token = jwt.sign(
-    { id: user._id, role: user.role },
+    { id: user._id, email: user.email, role: user.role },
     process.env.JWT_SECRET,
-    {
-      expiresIn: '1h'
-    }
+    { expiresIn: '1h' }
   )
 
   return { token }
