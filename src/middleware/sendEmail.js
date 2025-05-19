@@ -6,7 +6,7 @@ export const sendEmailToManager = async ({ senderEmail, gigDetails }) => {
     port: 587,
     secure: false,
     auth: {
-      user: 'postmaster@mail.kilpailuta365.fi',
+      user: 'postmaster@kilpailuta365.fi',
       pass: process.env.MANAGER_PASSWORD
     }
   })
