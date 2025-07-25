@@ -9,6 +9,7 @@ import { authMiddleware } from '../middleware/authMiddleware.js'
 
 export const createProfile = [
   authMiddleware,
+  body('avatar').optional().isURL().withMessage('Avatar must be a valid URL'),
   body('jobTitle').notEmpty().withMessage('Job title is required'),
   body('name').notEmpty().withMessage('Name is required'),
   body('location').notEmpty().withMessage('Location is required'),
@@ -26,7 +27,7 @@ export const createProfile = [
       return res.status(400).json({ errors: errors.array() })
 
     try {
-      const { jobTitle, name, location, description, rate } = req.body
+      const { jobTitle, name, location, description, rate, avatar } = req.body
       const userId = req.user.id
       if (req.user.role !== 'pro') {
         return res
@@ -40,7 +41,8 @@ export const createProfile = [
         name,
         location,
         description,
-        rate
+        rate,
+        avatar
       )
       res.status(201).json(profile)
     } catch (error) {
@@ -51,6 +53,7 @@ export const createProfile = [
 
 export const updateProfile = [
   authMiddleware,
+  body('avatar').optional().isURL().withMessage('Avatar must be a valid URL'),
   body('jobTitle')
     .optional()
     .notEmpty()
@@ -74,7 +77,7 @@ export const updateProfile = [
       return res.status(400).json({ errors: errors.array() })
 
     try {
-      const { jobTitle, name, location, description, rate } = req.body
+      const { jobTitle, name, location, description, rate, avatar } = req.body
       const userId = req.user.id
       if (req.user.role !== 'pro') {
         return res
@@ -88,7 +91,8 @@ export const updateProfile = [
         name,
         location,
         description,
-        rate
+        rate,
+        avatar
       )
       res.status(200).json(profile)
     } catch (error) {
